@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { StateContext } from "../context/stateContext";
 
 function Todo() {
@@ -16,8 +16,8 @@ function Todo() {
   const handleEdit = (id) => {
     setToggleEdit({ id: id, state: !toggleEdit });
   };
+
   const todoList = state.todos;
-  console.log(todoList);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -53,8 +53,9 @@ function Todo() {
                     dispatch({
                       type: "UPDATE_TODO",
                       payload: todo,
-                      text: editText,
+                      text: editText.length ? editText : todo.text,
                     });
+                    setToggleEdit(false);
                   }}
                 >
                   Submit
