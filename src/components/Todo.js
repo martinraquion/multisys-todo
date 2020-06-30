@@ -1,12 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-// import TodosContext from "../context";
 import { StateContext } from "../context/stateContext";
 
 function Todo() {
   const { state, dispatch } = useContext(StateContext);
   const [todo, setTodo] = useState("");
+  const [toggleEdit, setToggleEdit] = useState({});
   const [editText, setEditText] = useState("");
-  //   console.log(state);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,6 +13,9 @@ function Todo() {
     setTodo("");
   };
 
+  const handleEdit = (id) => {
+    setToggleEdit({ id: id, state: !toggleEdit });
+  };
   const todoList = state.todos;
   console.log(todoList);
   return (
@@ -30,32 +32,35 @@ function Todo() {
               checked={todo.completed}
               onChange={() => dispatch({ type: "DONE_TODO", payload: todo })}
             />
-            {/* <div>{todo.complete ? "hi" : "nay"}</div> */}
 
             <div style={{ marginRight: 10 }}>{todo.text}</div>
-
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch({
-                  type: "UPDATE_TODO",
-                  payload: todo,
-                  text: editText,
-                });
-              }}
-            >
-              Edit
-            </button>
+            <button onClick={() => handleEdit(todo.id)}>Edit</button>
             <button
               onClick={() => dispatch({ type: "REMOVE_TODO", payload: todo })}
             >
               Delete
             </button>
-            <input
-              defaultValue={todo.text}
-              value={editText}
-              onChange={(e) => setEditText(e.target.value)}
-            />
+            {toggleEdit.id === todo.id && toggleEdit && (
+              <div>
+                <input
+                  defaultValue={todo.text}
+                  //   value={editText}
+                  onChange={(e) => setEditText(e.target.value)}
+                />
+                <button
+                  onClick={(e) => {
+                    e.preventDefault();
+                    dispatch({
+                      type: "UPDATE_TODO",
+                      payload: todo,
+                      text: editText,
+                    });
+                  }}
+                >
+                  Submit
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>
