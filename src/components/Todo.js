@@ -5,7 +5,7 @@ import { StateContext } from "../context/stateContext";
 function Todo() {
   const { state, dispatch } = useContext(StateContext);
   const [todo, setTodo] = useState("");
-  console.log(state);
+  //   console.log(state);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +14,7 @@ function Todo() {
   };
 
   const todoList = state.todos;
-  //   console.log(todoList);
+  console.log(todoList);
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -24,7 +24,13 @@ function Todo() {
       <div style={{ marginTop: "1rem" }}>
         {todoList.map((todo) => (
           <div key={todo.id} style={{ display: "flex", marginTop: 10 }}>
-            <div style={{ marginRight: 10 }}> {todo.text}</div>
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => dispatch({ type: "DONE_TODO", payload: todo })}
+            />
+
+            <div style={{ marginRight: 10 }}>{todo.text}</div>
             <button>Edit</button>
             <button
               onClick={() => dispatch({ type: "REMOVE_TODO", payload: todo })}
