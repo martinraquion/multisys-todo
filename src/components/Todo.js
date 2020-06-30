@@ -4,7 +4,7 @@ import { StateContext } from "../context/stateContext";
 function Todo() {
   const { state, dispatch } = useContext(StateContext);
   const [todo, setTodo] = useState("");
-  const [toggleEdit, setToggleEdit] = useState({});
+  const [toggleEdit, setToggleEdit] = useState({ id: null });
   const [editText, setEditText] = useState("");
 
   const handleSubmit = (e) => {
@@ -26,36 +26,60 @@ function Todo() {
       </form>
       <div style={{ marginTop: "1rem" }}>
         {todoList.map((todo) => (
-          <div key={todo.id} style={{ display: "flex", marginTop: 10 }}>
-            <input
-              type="checkbox"
-              checked={todo.complete}
-              onChange={() => dispatch({ type: "DONE_TODO", payload: todo })}
-            />
-
+          <div
+            key={todo.id}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start",
+              justifyContent: "center",
+              marginTop: 10,
+              border: "1px solid cyan",
+              padding: 10,
+            }}
+          >
             <div
               style={{
-                marginRight: 10,
-                textDecoration: todo.complete ? "line-through" : "none",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
               }}
             >
-              {" "}
-              {todo.text}
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <input
+                  type="checkbox"
+                  checked={todo.complete}
+                  onChange={() =>
+                    dispatch({ type: "DONE_TODO", payload: todo })
+                  }
+                />
+
+                <div
+                  style={{
+                    marginRight: 10,
+                    textDecoration: todo.complete ? "line-through" : "none",
+                  }}
+                >
+                  {todo.text}
+                </div>
+              </div>
+              <div>
+                <button onClick={() => handleEdit(todo.id)}>Edit</button>
+                <button
+                  onClick={() =>
+                    dispatch({ type: "REMOVE_TODO", payload: todo })
+                  }
+                >
+                  Delete
+                </button>
+              </div>
             </div>
-            <button onClick={() => handleEdit(todo.id)}>Edit</button>
-            <button
-              onClick={() => dispatch({ type: "REMOVE_TODO", payload: todo })}
-            >
-              Delete
-            </button>
+
             {toggleEdit.id === todo.id && toggleEdit && (
               <div>
-                <input
-                  defaultValue={todo.text}
-                  onChange={(e) => setEditText(e.target.value)}
-                />
-                <button
-                  onClick={(e) => {
+                <form
+                  onSubmit={(e) => {
                     e.preventDefault();
                     dispatch({
                       type: "UPDATE_TODO",
@@ -65,8 +89,12 @@ function Todo() {
                     setToggleEdit(false);
                   }}
                 >
-                  Submit
-                </button>
+                  <input
+                    defaultValue={todo.text}
+                    onChange={(e) => setEditText(e.target.value)}
+                  />
+                  <button type="submit">Submit</button>
+                </form>
               </div>
             )}
           </div>
