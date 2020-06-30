@@ -4,6 +4,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 to install dependencies
 
-### `yarn start
+### `yarn start`
 
-start
+start program
