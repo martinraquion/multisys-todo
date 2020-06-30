@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from "react";
+import React, { createContext, useReducer } from "react";
 import reducer from "../reducer/stateReducer";
 
 import { v4 as uuidv4 } from "uuid";

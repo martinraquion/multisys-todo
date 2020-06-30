@@ -30,6 +30,17 @@ export default function reducer(state, action) {
       );
       return { ...state, todos: toggleTodos };
 
+    case "UPDATE_TODO":
+      const updateTodos = state.todos.map((t) =>
+        t.id === action.payload.id
+          ? { ...action.payload, text: action.text }
+          : t
+      );
+      return {
+        ...state,
+        todos: updateTodos,
+      };
+
     default:
       return state;
   }
