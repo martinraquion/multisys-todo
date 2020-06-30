@@ -9,7 +9,7 @@ let todosContext = {
   todos: [
     {
       id: uuidv4(),
-      text: "send trends in email",
+      text: "Initial Todo",
       complete: false,
     },
   ],
