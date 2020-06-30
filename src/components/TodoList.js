@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { StateContext } from "../context/stateContext";
 
-function Todo() {
+function TodoList() {
   const { state, dispatch } = useContext(StateContext);
   const [todo, setTodo] = useState("");
   const [toggleEdit, setToggleEdit] = useState({});
@@ -29,19 +29,11 @@ function Todo() {
           <div key={todo.id} style={{ display: "flex", marginTop: 10 }}>
             <input
               type="checkbox"
-              checked={todo.complete}
+              checked={todo.completed}
               onChange={() => dispatch({ type: "DONE_TODO", payload: todo })}
             />
 
-            <div
-              style={{
-                marginRight: 10,
-                textDecoration: todo.complete ? "line-through" : "none",
-              }}
-            >
-              {" "}
-              {todo.text}
-            </div>
+            <div style={{ marginRight: 10 }}>{todo.text}</div>
             <button onClick={() => handleEdit(todo.id)}>Edit</button>
             <button
               onClick={() => dispatch({ type: "REMOVE_TODO", payload: todo })}
@@ -76,4 +68,4 @@ function Todo() {
   );
 }
 
-export default Todo;
+export default TodoList;
